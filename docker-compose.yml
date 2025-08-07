@@ -3,9 +3,10 @@ services:
   cache:
     image: redis:8.2-rc1-alpine
     restart: always
+    mem_limit: 1g
     ports:
       - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning
+    command: redis-server --appendonly yes --appendfsync everysec --save 600 1 --loglevel warning
     volumes: 
       - cache:/data
 volumes:
