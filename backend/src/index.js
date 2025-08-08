@@ -1,6 +1,18 @@
-const express = require('express')
-const app = express()
 const port = 3000
+import { nanoid } from 'nanoid'
+
+import express from 'express'
+const app = express()
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+import { createClient } from 'redis';
+const client = createClient();
+
+client.on('error', err => console.log('Redis Client Error', err));
+
+await client.connect();
 
 let dummyData=[
   {
@@ -24,6 +36,21 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+app.post('/create', async (req, res) => {
+
+  const longURL = req?.body?.longURL;
+  const shortURL = nanoid(7);
+  const result =  await client.set(shortURL, longURL);
+  const savedValue = await client.get(shortURL);
+
+  res.send({
+    message: "URL Shortened!",
+    result: result,
+    shortURL: shortURL,
+    longURL: savedValue
+  })
+})
+
 app.get('/:shortURL', (req, res) => {
   const shortURL = req.params.shortURL;
 
@@ -33,11 +60,11 @@ app.get('/:shortURL', (req, res) => {
     }else {
       console.log(shortURL)
       console.log(Object.keys(url) == shortURL)
+      console.log(Object.values(url))
+      res.send(...(Object.values(url)))
     }
   })
 
-  //shortURL
-  // res.redirect("https://google.com")
   res.send("1")
 })
 
