@@ -1,13 +1,17 @@
 import { nanoid } from "nanoid";
 import { createClient } from "redis";
 import express from "express";
+import cors from "cors";
 
-const port = 3000;
+const port = 3001;
 const app = express();
 const client = createClient();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+  origin: "*"
+}))
 
 client.on("error", (err) => console.log("Redis Client Error", err));
 

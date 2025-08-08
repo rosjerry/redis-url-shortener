@@ -1,25 +1,12 @@
 "use client";
-import React from "react";
+
+import React, { useState, useEffect } from "react";
 import { Button, Form, ConfigProvider, Input, List } from "antd";
 import theme from "./themeConfig";
+import { fetchAllLinks } from "./lib/data";
 
 const HomePage = () => {
   const [shortenForm] = Form.useForm();
-
-  const data = [
-    {
-      title: "Ant Design Title 1",
-    },
-    {
-      title: "Ant Design Title 2",
-    },
-    {
-      title: "Ant Design Title 3",
-    },
-    {
-      title: "Ant Design Title 4",
-    },
-  ];
 
   return (
     <ConfigProvider theme={theme}>
@@ -47,14 +34,15 @@ const HomePage = () => {
       <List
         style={{
           width: 600,
-          margin: "auto"
+          margin: "auto",
         }}
         itemLayout="horizontal"
-        dataSource={data}
+        // loading={loading}
+        // dataSource={data}
         renderItem={(item, index) => (
           <List.Item>
             <List.Item.Meta
-              title={<a href="https://ant.design">{item.title}</a>}
+              title={<a href="https://ant.design">{"hell"}</a>}
               description="Ant Design, a design language for background applications, is refined by Ant UED Team"
             />
           </List.Item>
