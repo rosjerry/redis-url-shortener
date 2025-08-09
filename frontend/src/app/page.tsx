@@ -7,6 +7,30 @@ import { fetchAllLinks } from "./lib/data";
 
 const HomePage = () => {
   const [shortenForm] = Form.useForm();
+  const [links, setLinks] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const loadLinks = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchAllLinks();
+        setLinks(data);
+      } catch (error) {
+        console.error('Failed to load links:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadLinks();
+  }, []);
+
+  const linksArray = Object.entries(links).map(([shortURL, longURL]) => ({
+    shortURL,
+    longURL,
+    fullShortURL: `http://localhost:3001/${shortURL}`
+  }));
 
   return (
     <ConfigProvider theme={theme}>
@@ -38,12 +62,16 @@ const HomePage = () => {
         }}
         itemLayout="horizontal"
         // loading={loading}
-        // dataSource={data}
+        dataSource={linksArray}
         renderItem={(item, index) => (
           <List.Item>
             <List.Item.Meta
-              title={<a href="https://ant.design">{"hell"}</a>}
-              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+              title={
+                <a href={item.fullShortURL} target="_blank" rel="noopener noreferrer">
+                {item.shortURL}
+              </a>
+              }
+              description={item.longURL}
             />
           </List.Item>
         )}
