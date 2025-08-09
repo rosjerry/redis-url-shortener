@@ -40,6 +40,7 @@ app.get("/", async (req, res) => {
 app.post("/create", async (req, res) => {
   try {
     const longURL = req?.body?.longURL;
+    console.log(longURL);
     const shortURL = nanoid(7);
     const result = await client.set(shortURL, longURL);
     const savedValue = await client.get(shortURL);
