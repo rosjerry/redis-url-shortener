@@ -57,21 +57,20 @@ const HomePage = () => {
   const handleSubmit = async (values: { longUrl: string }) => {
     setSubmitting(true);
     try {
-      const result = await createLink(values.longUrl); 
-      setLinks(prevLinks => ({
+      const result = await createLink(values.longUrl);
+      setLinks((prevLinks) => ({
         [result.shortURL]: result.longURL,
         ...prevLinks,
       }));
-      
+
       shortenForm.resetFields();
-      console.log('URL shortened successfully:', result);
+      console.log("URL shortened successfully:", result);
     } catch (error) {
-      console.error('Failed to create short URL:', error);
+      console.error("Failed to create short URL:", error);
     } finally {
       setSubmitting(false);
     }
   };
-
 
   return (
     <ConfigProvider theme={theme}>
