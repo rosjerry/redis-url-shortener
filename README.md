@@ -86,20 +86,6 @@ redis-url-shortener/
 - `GET /:shortCode` - Redirect to original URL
 - `GET /api/urls` - List all URLs (optional)
 
-## 🧪 Testing
-
-### Backend Tests
-```bash
-cd backend
-npm test
-```
-
-### Frontend Tests
-```bash
-cd frontend
-npm test
-```
-
 ## 📚 Postman Collection
 
 <details>
